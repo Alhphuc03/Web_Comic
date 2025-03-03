@@ -7,7 +7,7 @@ import {
   FaInstagram,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
+import logo from "../../../assets/logo.webp";
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white py-10 mt-auto">
@@ -17,7 +17,7 @@ const Footer = () => {
           <div className="flex items-center space-x-3">
             <Link to="/">
               <img
-                src="../../../../assets/logo.webp"
+                src={logo}
                 alt="Logo"
                 className="h-24 rounded-full"
               />
