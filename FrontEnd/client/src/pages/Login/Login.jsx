@@ -64,7 +64,13 @@ const Login = () => {
     >
       <div className=" absolute top-2 left-2">
         <Link to="/">
-          <img src={logo} alt="Logo" className="h-16 rounded-full" />
+          <img
+            src={logo}
+            alt="Logo"
+            className="h-12 md:h-16 rounded-full"
+            width={48}
+            height={64}
+          />
         </Link>
       </div>
       <div className="w-full max-w-md p-8 space-y-6 bg-[#121212] bg-opacity-90 shadow-lg rounded-xl">

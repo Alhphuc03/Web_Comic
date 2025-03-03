@@ -115,6 +115,7 @@ const Navbar = () => {
       className={`text-white w-full py-4 top-0 z-50 transition-all duration-300 ease-in-out
       ${isFixedNavbar ? "fixed" : "relative"} 
       ${isScrolled ? "bg-[#111]" : "bg-transparent"}
+      ${window.innerWidth < 640 ? "relative" : "fixed"} 
     `}
     >
       <div className="container mx-auto flex justify-between">
@@ -126,7 +127,7 @@ const Navbar = () => {
                 src={logo}
                 alt="Logo"
                 className="h-12 md:h-16 rounded-full"
-                width={64} 
+                width={64}
                 height={64}
               />
             </Link>
@@ -241,20 +242,22 @@ const Navbar = () => {
             </div>
           )}
         </div>
-        {/* Nút chuyển đổi chế độ sáng/tối */}
 
         {/* Responsive Menu Button */}
         <div className="flex lg:hidden mr-2">
           <button
             onClick={toggleMenu}
             className="text-white hover:text-gray-400"
+            aria-label="Mở menu"
+            title="Mở menu"
           >
+            <span className="sr-only">Mở menu</span>{" "}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              className="h-10 w-10 "
+              className="h-10 w-10"
             >
               <path
                 strokeLinecap="round"

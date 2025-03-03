@@ -58,6 +58,8 @@ const ComicCard = ({ comic }) => {
             alt={comic.name}
             className="w-full h-72 object-cover rounded-lg mb-2 group-hover:scale-105 group-hover:brightness-110 transition-all duration-300 ease-in-out"
             loading="lazy"
+            width={188}
+            height={288}
           />
           {comic.updatedAt && (
             <p className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-xs text-gray-300 italic p-1 text-center">
@@ -72,15 +74,15 @@ const ComicCard = ({ comic }) => {
 
         {/* Nội dung */}
         <div className="px-1">
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-600">
             Trạng thái:{" "}
             <strong
               className={
                 comic.status === "ongoing"
-                  ? "text-green-500"
+                  ? "text-green-700 font-bold"
                   : comic.status === "completed"
-                  ? "text-red-500"
-                  : "text-yellow-500"
+                  ? "text-red-700 font-bold"
+                  : "text-yellow-700 font-bold"
               }
             >
               {comic.status === "ongoing"
@@ -91,15 +93,15 @@ const ComicCard = ({ comic }) => {
             </strong>
           </p>
 
-          <h4 className="text-sm font-medium text-gray-300 border rounded-md px-2 max-w-fit my-2">
+          <p className="text-sm font-medium text-gray-300 border rounded-md px-2 max-w-fit my-2">
             {comic.chaptersLatest?.[0]?.chapter_name
               ? `Chapter ${comic.chaptersLatest[0].chapter_name}`
               : "Chưa có chapter"}
-          </h4>
+          </p>
 
-          <h3 className="text-xl font-bold text-gray-100 m-0.5 overflow-hidden text-ellipsis whitespace-nowrap w-full group-hover:text-yellow-400  cursor-pointer">
+          <p className="text-xl font-bold text-gray-100 m-0.5 overflow-hidden text-ellipsis whitespace-nowrap w-full group-hover:text-yellow-400  cursor-pointer">
             {comic.name}
-          </h3>
+          </p>
         </div>
       </div>
     </Link>

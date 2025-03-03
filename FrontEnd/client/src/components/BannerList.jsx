@@ -91,7 +91,7 @@ const BannerList = () => {
               </p>
               <button
                 onClick={handleNavigate}
-                className="bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105"
+                className="bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg text-lg font-semibold transition transform hover:scale-105"
               >
                 Đọc Ngay
               </button>
@@ -105,7 +105,7 @@ const BannerList = () => {
                 grabCursor={true}
                 centeredSlides={true}
                 slidesPerView={1}
-                autoplay={{ delay: 3000, disableOnInteraction: false }}
+                autoplay={{ delay: 2000, disableOnInteraction: false }}
                 onSlideChange={handleSlideChange}
                 className="w-full max-w-xs"
                 loop={false}
@@ -119,11 +119,12 @@ const BannerList = () => {
                       <img
                         src={banner.src}
                         alt={banner.title}
-                        width="256" // Thay đổi tùy kích thước ảnh
-                        height="450"
+                        width={256}
+                        height={450}
                         className="w-64 h-[450px] object-cover rounded-lg"
-                        loading="lazy"
+                        loading={banner.id === 0 ? "eager" : "lazy"}
                       />
+
                       <div className="absolute w-60 bottom-4 left-2 right-2 bg-black bg-opacity-70 px-4 py-2 rounded text-lg font-bold text-white overflow-hidden text-ellipsis whitespace-nowrap">
                         {banner.title}
                       </div>
@@ -137,7 +138,7 @@ const BannerList = () => {
           {/* Mobile Layout */}
           <div className="block md:hidden relative p-4 text-center">
             <div
-              className="w-full h-80 rounded-lg shadow-lg relative overflow-hidden"
+              className="w-full h-[30rem] rounded-lg shadow-lg relative overflow-hidden"
               style={{
                 backgroundImage: `url(${banners[currentIndex]?.src})`,
                 backgroundSize: "cover",

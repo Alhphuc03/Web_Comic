@@ -104,7 +104,10 @@ const ComicList = ({ type, title }) => {
       <button
         className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 p-3 rounded-full shadow-lg z-10 hover:bg-gray-700 transition"
         onClick={() => scroll("left")}
+        aria-label="Cuộn sang trái" // ✅ Hỗ trợ screen reader
+        title="Cuộn sang trái" // ✅ Hiển thị tooltip khi hover
       >
+        <span className="sr-only">Cuộn sang trái</span> {/* ✅ Văn bản ẩn */}
         <FaChevronLeft className="text-white w-6 h-6" />
       </button>
 
@@ -145,7 +148,10 @@ const ComicList = ({ type, title }) => {
       <button
         className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 p-3 rounded-full shadow-lg z-10 hover:bg-gray-700 transition"
         onClick={() => scroll("right")}
+        aria-label="Cuộn sang phải"
+        title="Cuộn sang phải"
       >
+        <span className="sr-only">Cuộn sang phải</span>
         <FaChevronRight className="text-white w-6 h-6" />
       </button>
     </div>

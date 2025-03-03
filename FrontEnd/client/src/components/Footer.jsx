@@ -39,27 +39,37 @@ const Footer = () => {
                 href: "https://www.facebook.com/phuc.le.899326/",
                 icon: <FaFacebookF />,
                 hover: "hover:text-blue-400",
+                label: "Facebook",
               },
               {
                 href: "https://github.com/Alhphuc03",
                 icon: <FaGithub />,
                 hover: "hover:text-blue-400",
+                label: "GitHub",
               },
               {
                 href: "mailto:lhphuc03@gmail.com",
                 icon: <FaEnvelope />,
                 hover: "hover:text-red-400",
+                label: "Email",
               },
               {
                 href: "#",
                 icon: <FaTelegramPlane />,
                 hover: "hover:text-blue-300",
+                label: "Telegram",
               },
-              { href: "#", icon: <FaTiktok />, hover: "hover:text-gray-400" },
+              {
+                href: "#",
+                icon: <FaTiktok />,
+                hover: "hover:text-gray-400",
+                label: "TikTok",
+              },
               {
                 href: "#",
                 icon: <FaInstagram />,
                 hover: "hover:text-pink-400",
+                label: "Instagram",
               },
             ].map((social, index) => (
               <a
@@ -68,7 +78,11 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`${social.hover} text-lg md:text-xl bg-white text-black font-bold p-2 md:p-3 rounded-full border-2 border-white flex items-center justify-center w-10 h-10 md:w-12 md:h-12`}
+                aria-label={social.label} // ✅ Giúp trình đọc màn hình hiểu
+                title={social.label} // ✅ Hiển thị tooltip khi hover
               >
+                <span className="sr-only">{social.label}</span>{" "}
+                {/* ✅ Văn bản ẩn cho screen reader */}
                 {social.icon}
               </a>
             ))}
