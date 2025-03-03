@@ -94,7 +94,7 @@ export const ComicPage = () => {
   };
 
   return (
-    <div className="min-h-screen mt-28 mb-6 container px-2 md:mx-auto">
+    <div className="min-h-screen md:mt-28 mt-20 mb-6 container px-2 md:mx-auto">
       <div>
         <div className="mb-4 flex flex-col md:flex-row items-start md:items-center gap-4 text-white">
           <label className="text-lg">Tình trạng</label>

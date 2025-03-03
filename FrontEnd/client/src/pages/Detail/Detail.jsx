@@ -354,7 +354,7 @@ const Detail = () => {
         style={containerStyle}
       >
         <Button
-          className={`relative text-3xl text-white pb-1 ${
+          className={`relative text-2xl md:text-3xl text-white pb-1 ${
             activeTab === "chapters"
               ? "after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full after:h-[3px] after:bg-red-700"
               : ""
@@ -365,7 +365,7 @@ const Detail = () => {
         </Button>
 
         <Button
-          className={`relative text-3xl text-white pb-1 ${
+          className={`relative text-2xl md:text-3xl text-white pb-1 ${
             activeTab === "comments"
               ? "after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full after:h-[3px] after:bg-red-700"
               : ""
@@ -379,14 +379,14 @@ const Detail = () => {
       {activeTab === "chapters" && (
         <div className="container mx-auto mb-10 px-2">
           <div className="flex justify-between items-center my-4">
-            <h2 className="text-3xl font-semibold text-white">
+            <h2 className="text-xl md:text-3xl font-semibold text-white">
               Danh sách chương:
             </h2>
             <div
               className="flex items-center cursor-pointer"
               onClick={handleSortClick}
             >
-              <h2 className="text-2xl font-semibold text-white mr-2 flex items-center gap-1">
+              <h2 className="text-xl md:text-3xl font-semibold text-white mr-2 flex items-center gap-1">
                 Sắp xếp
                 {sortOrder === "desc" ? (
                   <ImSortAmountDesc />
@@ -396,7 +396,10 @@ const Detail = () => {
               </h2>
             </div>
           </div>
-          <ul className="min-h-[300px] max-h-[500px] overflow-y-auto">
+          <ul
+            className="min-h-[500px] max-h-[1000px] overflow-y-auto"
+            style={{ scrollbarColor: "#888 #222" }}
+          >
             {sortedChapters.map((server) => (
               <li key={server.server_name} className="text-xl text-white/50">
                 <h3 className=" mb-1">{server.server_name}</h3>

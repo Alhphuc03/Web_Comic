@@ -119,6 +119,8 @@ const BannerList = () => {
                       <img
                         src={banner.src}
                         alt={banner.title}
+                        width="256" // Thay đổi tùy kích thước ảnh
+                        height="450"
                         className="w-64 h-[450px] object-cover rounded-lg"
                         loading="lazy"
                       />

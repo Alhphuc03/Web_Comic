@@ -30,9 +30,11 @@ const ChapterPage = () => {
 
   // Lưu lịch sử đọc khi component mount hoặc khi người dùng chuyển sang chương mới
   useEffect(() => {
-    if (chapterData) {
+    if (chapterData && token) {
+      // Kiểm tra nếu có token mới gọi API lưu lịch sử đọc
       const comicSlug = slug;
       const chapterName = chapterData.chapter_name;
+
       ReadingHistoryApi.saveReadingHistory(comicSlug, chapterName, token)
         .then((data) => {
           console.log("Lịch sử đọc đã được lưu:", data);
@@ -41,7 +43,7 @@ const ChapterPage = () => {
           console.error("Lỗi khi lưu lịch sử đọc:", error);
         });
     }
-  }, [chapterData, slug, token]); // Đảm bảo chỉ gọi khi dữ liệu chapterData được tải xong
+  }, [chapterData, slug, token]);
 
   if (!chapterData) return <div>Loading...</div>;
 
@@ -56,8 +58,11 @@ const ChapterPage = () => {
       ? chapterList[currentIndex + 1]
       : null;
 
+  const handleScrollTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   return (
-    <div className="container mx-auto w-screen mb-28 px-2">
+    <div className="container mx-auto w-screen mb-28">
       <div className=" w-full lg:w-4/5 bg-[#242526] mx-auto rounded-lg p-2 my-4 text-white">
         {/* Breadcrumb */}
         <nav className="flex items-center space-x-2 md:text-lg text-sm flex-wrap">
@@ -81,11 +86,13 @@ const ChapterPage = () => {
         </nav>
 
         {/* Tên Truyện & Chương */}
-        <h1 className="text-3xl my-2">
+        <h1 className="text-2xl md:text-3xl my-2">
           {chapterData.comic_name.split("[")[0]}
         </h1>
-        <h2 className="text-2xl mb-1">Chương {chapterData.chapter_name}</h2>
-        <h3 className="text-xl">
+        <h2 className="text-xl md:text-2xl mb-1">
+          Chương {chapterData.chapter_name}
+        </h2>
+        <h3 className="text-lg md:text-xl">
           {chapterData.chapter_title || "Không có tiêu đề"}
         </h3>
 
@@ -136,6 +143,7 @@ const ChapterPage = () => {
             src={`https://sv1.otruyencdn.com/${chapterData.chapter_path}/${image.image_file}`}
             alt={`Page ${image.image_page}`}
             className="mx-auto w-full md:w-4/5 lg:w-2/5 "
+            loading="lazy"
           />
         ))}
       </div>
@@ -153,6 +161,7 @@ const ChapterPage = () => {
             <Link
               to={`/${slug}/chapter/${prevChapter.chapter_name}`}
               state={{ currentChapter: prevChapter, allChapters }}
+              onClick={handleScrollTop}
             >
               <Button className="bg-red-900 flex items-center gap-2">
                 <GrLinkPrevious />
@@ -167,14 +176,18 @@ const ChapterPage = () => {
           {/* Dropdown chọn chương */}
           <div className="relative">
             <button
-              className="bg-gray-800 text-white px-6 py-2 rounded flex items-center gap-2"
+              className="bg-gray-800 w-44 text-white px-6 py-2 rounded flex items-center gap-2"
               onClick={() => setIsOpen(!isOpen)}
             >
-              Chương {currentChapter.chapter_name} <FaChevronDown />
+              <span> Chương {currentChapter.chapter_name}</span>{" "}
+              <FaChevronDown />
             </button>
 
             {isOpen && (
-              <ul className="absolute left-0 top-full mt-1 w-48 bg-gray-900 text-white shadow-lg rounded max-h-60 overflow-y-auto">
+              <ul
+                className="absolute left-0 bottom-full mb-1 w-44 bg-gray-900 text-white shadow-lg rounded max-h-80 overflow-y-auto"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+              >
                 {chapterList.map((chapter) => (
                   <li key={chapter.chapter_name}>
                     <Link
@@ -196,6 +209,7 @@ const ChapterPage = () => {
             <Link
               to={`/${slug}/chapter/${nextChapter.chapter_name}`}
               state={{ currentChapter: nextChapter, allChapters }}
+              onClick={handleScrollTop}
             >
               <Button className="bg-red-900 flex items-center gap-2">
                 <GrLinkNext />

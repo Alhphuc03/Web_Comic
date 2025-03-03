@@ -120,9 +120,15 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between">
         <div className="flex items-center ">
           {/* Logo */}
-          <div className="logo ml-2">
+          <div className="logo ml-2 ">
             <Link to="/" onClick={() => setIsMenuOpen(false)}>
-              <img src={logo} alt="Logo" className="h-16 rounded-full" />
+              <img
+                src={logo}
+                alt="Logo"
+                className="h-12 md:h-16 rounded-full"
+                width={64} 
+                height={64}
+              />
             </Link>
           </div>
 

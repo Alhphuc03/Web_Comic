@@ -74,13 +74,21 @@ const ComicCard = ({ comic }) => {
         <div className="px-1">
           <p className="text-xs text-gray-500">
             Trạng thái:{" "}
-            <span
+            <strong
               className={
-                comic.status === "ongoing" ? "text-green-500" : "text-red-500"
+                comic.status === "ongoing"
+                  ? "text-green-500"
+                  : comic.status === "completed"
+                  ? "text-red-500"
+                  : "text-yellow-500"
               }
             >
-              {comic.status === "ongoing" ? "Đang tiến hành" : "Hoàn thành"}
-            </span>
+              {comic.status === "ongoing"
+                ? "Đang tiến hành"
+                : comic.status === "completed"
+                ? "Hoàn thành"
+                : "Sắp ra mắt"}
+            </strong>
           </p>
 
           <h4 className="text-sm font-medium text-gray-300 border rounded-md px-2 max-w-fit my-2">
