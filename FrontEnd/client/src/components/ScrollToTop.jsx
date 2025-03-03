@@ -5,8 +5,9 @@ function ScrollToTop() {
   const location = useLocation();
 
   useEffect(() => {
+    // Chỉ cuộn lên đầu trang khi URL thay đổi
     window.scrollTo(0, 0);
-  }, [location]);
+  }, [location]); // Phụ thuộc vào sự thay đổi của `location`
 
   return null;
 }
