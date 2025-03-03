@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { userApi } from "../../api/UserApi";
 import LoginGoogle from "../../components/LoginGoogle";
 import Button from "../../components/Button";
-import logo  "../../../../assets/logo.webp";
+import logo from "../../../../assets/logo.webp";
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -64,11 +64,7 @@ const Login = () => {
     >
       <div className=" absolute top-2 left-2">
         <Link to="/">
-          <img
-            src={logo}
-            alt="Logo"
-            className="h-16 rounded-full"
-          />
+          <img src={logo} alt="Logo" className="h-16 rounded-full" />
         </Link>
       </div>
       <div className="w-full max-w-md p-8 space-y-6 bg-[#121212] bg-opacity-90 shadow-lg rounded-xl">
