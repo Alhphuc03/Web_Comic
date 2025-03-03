@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "../../components/Button";
 import logo from "../../../../assets/logo.webp";
+import LoginGoogle from "../../components/LoginGoogle";
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -80,7 +81,15 @@ const Register = () => {
         navigate("/login");
       }, 2000);
     } catch (err) {
-      toast.error(err.message || "Có lỗi xảy ra, vui lòng thử lại.");
+      // In ra chi tiết đối tượng lỗi để kiểm tra
+      console.log(err.msg);
+
+      // Kiểm tra xem có msg trong err.response
+      if (err.msg) {
+        toast.error(err.msg);
+      } else {
+        toast.error("Có lỗi xảy ra, vui lòng thử lại.");
+      }
     } finally {
       setLoading(false);
     }
@@ -169,13 +178,7 @@ const Register = () => {
           <div className="flex-1 h-[1px] bg-gray-300"></div>
         </div>
 
-        <div className="flex justify-center">
-          <img
-            src="https://banner2.cleanpng.com/20180413/rfe/avfci721i.webp"
-            alt="Google Login"
-            className="w-12 h-12 cursor-pointer hover:scale-110 transition-transform"
-          />
-        </div>
+        <LoginGoogle />
 
         <p className="text-center text-gray-600">
           Bạn đã có tài khoản?{" "}
