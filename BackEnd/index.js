@@ -16,7 +16,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "http://127.0.0.1:5173",
-      "https://p-comic.vercel.app/",
+      "https://p-comic.vercel.app",
     ],
     methods: ["GET", "POST", "DELETE"],
     credentials: true, // Bật credentials để hỗ trợ cookies hoặc headers đặc biệt
