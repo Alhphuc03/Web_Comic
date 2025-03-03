@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { userApi } from "../api/UserApi";
 // import { FaSun, FaMoon } from "react-icons/fa";
-
+import logo from "../../../assets/logo.webp";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -122,11 +122,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="logo ml-2">
             <Link to="/" onClick={() => setIsMenuOpen(false)}>
-              <img
-                src="../../../../assets/logo.webp"
-                alt="Logo"
-                className="h-16 rounded-full"
-              />
+              <img src={logo} alt="Logo" className="h-16 rounded-full" />
             </Link>
           </div>
 
