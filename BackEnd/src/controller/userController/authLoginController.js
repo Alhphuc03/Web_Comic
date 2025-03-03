@@ -12,7 +12,7 @@ const login = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(400).json({ msg: "User not found" });
+      return res.status(400).json({ msg: "Tên đăng nhập hoặc email sai" });
     }
 
     // So sánh mật khẩu đã nhập với mật khẩu được mã hóa
@@ -29,7 +29,7 @@ const login = async (req, res) => {
     );
 
     res.json({
-      msg: "Login successful",
+      msg: "Đăng nhập thành công",
       token,
       user: {
         id: user._id,

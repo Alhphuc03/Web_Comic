@@ -255,7 +255,7 @@ const Detail = () => {
             <img
               src={`${APP_DOMAIN_CDN_IMAGE}/uploads/comics/${item.thumb_url}`}
               alt={item.name}
-              className="w-[200px] sm:w-[250px] md:w-[300px] h-auto mx-auto rounded-lg shadow-lg"
+              className="w-[250px] sm:w-[300px] md:w-[350px] h-auto mx-auto rounded-lg shadow-lg"
             />
           </div>
 

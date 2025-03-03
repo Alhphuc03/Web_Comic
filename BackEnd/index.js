@@ -19,6 +19,7 @@ app.use(
       "https://p-comic.vercel.app",
     ],
     methods: ["GET", "POST", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"], // Cho phép header Authorization
     credentials: true, // Bật credentials để hỗ trợ cookies hoặc headers đặc biệt
   })
 );
