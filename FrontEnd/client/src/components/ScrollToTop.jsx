@@ -6,7 +6,7 @@ function ScrollToTop() {
 
   useEffect(() => {
     // Chỉ cuộn lên đầu trang khi URL thay đổi
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [location]); // Phụ thuộc vào sự thay đổi của `location`
 
   return null;
