@@ -126,7 +126,7 @@ const Navbar = () => {
               <img
                 src={logo}
                 alt="Logo"
-                className="h-12 md:h-16 rounded-full"
+                className="h-12 w-12 md:h-16 rounded-full"
                 width={64}
                 height={64}
               />

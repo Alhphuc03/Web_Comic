@@ -67,7 +67,7 @@ const Login = () => {
           <img
             src={logo}
             alt="Logo"
-            className="h-12 md:h-16 rounded-full"
+            className="h-12 w-12 md:h-16 rounded-full"
             width={48}
             height={64}
           />
