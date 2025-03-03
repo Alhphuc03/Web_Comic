@@ -18,7 +18,7 @@ app.use(
       "http://127.0.0.1:5173",
       "https://p-comic.vercel.app",
     ],
-    methods: ["GET", "POST", "DELETE"],
+    methods: ["GET", "POST", "DELETE", "OPTIONS"],
     credentials: true, // Bật credentials để hỗ trợ cookies hoặc headers đặc biệt
   })
 );

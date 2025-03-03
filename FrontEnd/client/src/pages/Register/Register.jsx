@@ -1,9 +1,9 @@
 import { userApi } from "../../api/UserApi";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "../../components/Button";
-
+import logo from "../../../../assets/logo.webp";
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -94,6 +94,17 @@ const Register = () => {
           "url('https://images4.alphacoders.com/114/1145075.jpg')",
       }}
     >
+      <div className=" absolute top-2 left-2">
+        <Link to="/">
+          <img
+            src={logo}
+            alt="Logo"
+            className="h-12 w-12 md:h-16 md:w-16 first-line:rounded-full rounded-full"
+            width={48}
+            height={64}
+          />
+        </Link>
+      </div>
       <div className="w-full max-w-md p-8 space-y-6 bg-[#121212] bg-opacity-90 shadow-lg rounded-xl">
         <h1 className="text-4xl font-bold text-center text-white">Đăng ký</h1>
         <h2 className="text-base text-center text-[#B0B0B0]">
