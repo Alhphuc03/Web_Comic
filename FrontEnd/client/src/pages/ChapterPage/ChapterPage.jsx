@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, Link, useParams } from "react-router-dom";
-
 import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
 import { FaHome, FaChevronDown } from "react-icons/fa";
 import { ReadingHistoryApi } from "../../api/UserApi";
@@ -13,28 +12,68 @@ const ChapterPage = () => {
 
   const [chapterData, setChapterData] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const token = localStorage.getItem("token");
+  const [visibleImages, setVisibleImages] = useState([]);
+  const imageRefs = useRef([]);
 
   useEffect(() => {
+    setIsLoading(true);
     if (currentChapter?.chapter_api_data) {
       fetch(currentChapter.chapter_api_data)
         .then((response) => response.json())
         .then((data) => {
-          setChapterData(data.data.item);
+          setTimeout(() => {
+            setChapterData(data.data.item);
+            setIsLoading(false);
+          }, 1000);
         })
         .catch((error) => {
           console.error("Error fetching chapter data:", error);
+          setIsLoading(false);
         });
     }
   }, [currentChapter]);
 
-  // Lưu lịch sử đọc khi component mount hoặc khi người dùng chuyển sang chương mới
+  // Lazy loading với Intersection Observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = parseInt(entry.target.dataset.index);
+            setVisibleImages((prev) => {
+              const newVisible = [...prev];
+              newVisible[index] = true;
+              return newVisible;
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        rootMargin: "100px",
+        threshold: 0.1,
+      }
+    );
+
+    imageRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      imageRefs.current.forEach((ref) => {
+        if (ref) observer.unobserve(ref);
+      });
+    };
+  }, [chapterData]);
+
+  // Lưu lịch sử đọc
   useEffect(() => {
     if (chapterData && token) {
-      // Kiểm tra nếu có token mới gọi API lưu lịch sử đọc
       const comicSlug = slug;
       const chapterName = chapterData.chapter_name;
-
       ReadingHistoryApi.saveReadingHistory(comicSlug, chapterName, token)
         .then((data) => {
           console.log("Lịch sử đọc đã được lưu:", data);
@@ -45,9 +84,17 @@ const ChapterPage = () => {
     }
   }, [chapterData, slug, token]);
 
+  // Nếu đang loading, hiển thị vòng tròn đỏ
+  if (isLoading) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-red-500"></div>
+      </div>
+    );
+  }
+
   if (!chapterData) return <div>Loading...</div>;
 
-  // Tìm chương trước và chương sau
   const chapterList = allChapters.flatMap((server) => server.server_data);
   const currentIndex = chapterList.findIndex(
     (chap) => chap.chapter_name === currentChapter.chapter_name
@@ -61,10 +108,10 @@ const ChapterPage = () => {
   const handleScrollTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
   return (
     <div className="container mx-auto w-screen mb-28">
-      <div className=" w-full lg:w-4/5 bg-[#242526] mx-auto rounded-lg p-2 my-4 text-white">
-        {/* Breadcrumb */}
+      <div className="w-full lg:w-4/5 bg-[#242526] mx-auto rounded-lg p-2 my-4 text-white">
         <nav className="flex items-center space-x-2 md:text-lg text-sm flex-wrap">
           <Link to="/" className="text-gray-300 hover:text-white">
             Trang Chủ
@@ -85,7 +132,6 @@ const ChapterPage = () => {
           </span>
         </nav>
 
-        {/* Tên Truyện & Chương */}
         <h1 className="text-2xl md:text-3xl my-2">
           {chapterData.comic_name.split("[")[0]}
         </h1>
@@ -96,9 +142,7 @@ const ChapterPage = () => {
           {chapterData.chapter_title || "Không có tiêu đề"}
         </h3>
 
-        {/* Điều hướng chương */}
         <div className="flex gap-4 justify-center items-center text-white">
-          {/* Nút Chương Trước */}
           {prevChapter ? (
             <Link
               to={`/${slug}/chapter/${prevChapter.chapter_name}`}
@@ -115,7 +159,6 @@ const ChapterPage = () => {
               <span className="hidden md:block"> Chương trước</span>
             </Button>
           )}
-          {/* Nút Chương Sau */}
           {nextChapter ? (
             <Link
               to={`/${slug}/chapter/${nextChapter.chapter_name}`}
@@ -135,28 +178,35 @@ const ChapterPage = () => {
         </div>
       </div>
 
-      {/* Hiển thị hình ảnh chương */}
       <div className="my-10">
         {chapterData.chapter_image.map((image, index) => (
-          <img
+          <div
             key={index}
-            src={`https://sv1.otruyencdn.com/${chapterData.chapter_path}/${image.image_file}`}
-            alt={`Page ${image.image_page}`}
-            className="mx-auto w-full md:w-4/5 lg:w-2/5 "
-            loading="lazy"
-          />
+            ref={(el) => (imageRefs.current[index] = el)}
+            data-index={index}
+            className="min-h-[200px] flex items-center justify-center"
+          >
+            {visibleImages[index] ? (
+              <img
+                src={`https://sv1.otruyencdn.com/${chapterData.chapter_path}/${image.image_file}`}
+                alt={`Page ${image.image_page}`}
+                className="mx-auto w-full md:w-4/5 lg:w-2/5"
+                loading="lazy"
+              />
+            ) : (
+              <div className="w-full md:w-4/5 lg:w-2/5 h-96 flex items-center justify-center">
+                <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-red-500"></div>
+              </div>
+            )}
+          </div>
         ))}
       </div>
 
-      {/* Điều hướng chương */}
       <div className="fixed bottom-0 left-0 bg-gray-700 p-2 w-full">
-        <div className="flex gap-4 justify-center items-center  text-white ">
-          {/* Nút Home */}
+        <div className="flex gap-4 justify-center items-center text-white">
           <Link to="/">
             <FaHome className="text-3xl text-white" />
           </Link>
-
-          {/* Nút Chương Trước */}
           {prevChapter ? (
             <Link
               to={`/${slug}/chapter/${prevChapter.chapter_name}`}
@@ -172,8 +222,6 @@ const ChapterPage = () => {
               <GrLinkPrevious />
             </Button>
           )}
-
-          {/* Dropdown chọn chương */}
           <div className="relative">
             <button
               className="bg-gray-800 w-44 text-white px-6 py-2 rounded flex items-center gap-2"
@@ -182,7 +230,6 @@ const ChapterPage = () => {
               <span> Chương {currentChapter.chapter_name}</span>{" "}
               <FaChevronDown />
             </button>
-
             {isOpen && (
               <ul
                 className="absolute left-0 bottom-full mb-1 w-44 bg-gray-900 text-white shadow-lg rounded max-h-80 overflow-y-auto"
@@ -203,8 +250,6 @@ const ChapterPage = () => {
               </ul>
             )}
           </div>
-
-          {/* Nút Chương Sau */}
           {nextChapter ? (
             <Link
               to={`/${slug}/chapter/${nextChapter.chapter_name}`}

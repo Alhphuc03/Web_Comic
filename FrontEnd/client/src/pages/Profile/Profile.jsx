@@ -6,6 +6,7 @@ import { ComicAction, userApi } from "../../api/UserApi";
 import { MdDelete } from "react-icons/md"; // Import icon xóa
 import { toast } from "react-toastify";
 import ComicCard from "../../components/ComicCard ";
+
 export const Profile = () => {
   const [selectedTab, setSelectedTab] = useState("profile-info");
   const [userData, setUserData] = useState(null);
@@ -51,6 +52,15 @@ export const Profile = () => {
 
     fetchFavorites();
   }, [token, selectedTab, refreshFavorites]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    toast.success("Đăng xuất thành công!");
+    setTimeout(() => {
+      window.location.href = "/"; // Chuyển hướng và reload luôn
+    }, 500);
+  };
+
   const handleRemoveFavorite = async (slug) => {
     try {
       await ComicAction.removeFavorite(slug, token);
@@ -161,7 +171,9 @@ export const Profile = () => {
               onClick={() => setSelectedTab("logout")}
             >
               <CiLogout className="text-xl" />
-              <h3 className="text-lg font-semibold">Đăng xuất</h3>
+              <h3 className="text-lg font-semibold" onClick={handleLogout}>
+                Đăng xuất
+              </h3>
             </div>
           </div>
         </div>

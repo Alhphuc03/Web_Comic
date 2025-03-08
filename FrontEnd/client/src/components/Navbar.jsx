@@ -21,6 +21,8 @@ const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const [showCategories, setShowCategories] = useState(false);
+  const [profileImage, setProfileImage] = useState("");
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const handleSearch = (e) => {
     if (e.key === "Enter" && searchKeyword.trim()) {
       navigate(`/search?keyword=${searchKeyword.trim()}`);
@@ -85,11 +87,10 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setToken(null);
+    setProfileImage("");
     toast.success("Đăng xuất thành công!");
     navigate("/");
   };
-  const [profileImage, setProfileImage] = useState("");
-  const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
     if (token) {
@@ -203,7 +204,7 @@ const Navbar = () => {
           </div>
 
           {/* Nút Đăng ký / Đăng nhập */}
-          {isLoggedIn ? (
+          {isLoggedIn && profileImage ? (
             <div className="relative group top-0  h-full flex justify-center items-center">
               <img
                 src={profileImage}
@@ -324,13 +325,13 @@ const Navbar = () => {
                     placeholder="Tìm kiếm..."
                     value={searchKeyword}
                     onChange={(e) => setSearchKeyword(e.target.value)}
-                    onKeyDown={handleSearch} // Xử lý Enter
-                    className="p-2 rounded-lg text-lg bg-gray-700 text-white placeholder-gray-400 placeholder:text-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all duration-500 linear w-full"
+                    onKeyDown={handleSearch}
+                    className="p-2 rounded-lg text-lg bg-gray-700 text-white placeholder-gray-400 placeholder:text-lg focus:outline-none border-2 border-gray-500 focus:border-cyan-500 transition-all duration-500 linear w-4/5"
                     autoFocus
                   />
                   <IoSearch
                     className="text-xl text-white cursor-pointer hover:text-gray-400 transition-transform duration-300 ml-2"
-                    onClick={handleSearchClick} // Bấm vào icon = nhấn Enter
+                    onClick={handleSearchClick}
                   />
                 </div>
 
